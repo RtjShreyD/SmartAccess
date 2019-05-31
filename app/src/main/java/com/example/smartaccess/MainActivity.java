@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -20,8 +21,10 @@ import java.net.UnknownHostException;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     ActionBar actionBar;
-    public static final int SERVERPORT = 80;
-    public static final String SERVER_IP = "192.168.43.9";
+    int SERVERPORT ;
+    String SERVER_IP;
+    EditText t1 ;
+    EditText t2 ;
     private ClientThread clientThread;
     private Thread thread;
     private Handler handler;
@@ -34,14 +37,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6495ed")));
         handler = new Handler();
+        t1 = findViewById(R.id.ip_text);
+        t2 = findViewById(R.id.port_text);
     }
 
     @Override
     public void onClick(View view){
         if (view.getId() == R.id.connect_btn){
+            SERVER_IP = t1.getText().toString();
+            SERVERPORT = Integer.parseInt(t2.getText().toString());
+
             clientThread = new ClientThread();
             thread  = new Thread(clientThread);
             thread.start();
+
             return;
         }
     }
